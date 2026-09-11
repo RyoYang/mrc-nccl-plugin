@@ -38,6 +38,7 @@ const char* ibProviderName[] = {
 };
 
 NCCL_PARAM(IbDataDirect,"IB_DATA_DIRECT", 1);
+NCCL_PARAM(MrcMultiRecvEnable, "MRC_MULTI_RECV_ENABLE", 1);
 
 ncclResult_t pluginInit_v11(void** ctx, uint64_t commId, ncclNetCommConfig_v11_t* config, ncclDebugLogger_t logFunction, ncclProfilerCallback_t profFunction);
 ncclResult_t pluginInit_v10(ncclDebugLogger_t logFunction, ncclProfilerCallback_t profFunction);
@@ -237,7 +238,7 @@ ncclResult_t ncclIbGetPhysProperties(int dev, ncclNetProperties_t* props) {
   props->port = ibDev->portNum + ibDev->realPort;
   props->maxComms = ibDev->maxQp;
 
-  if (p2p_plugin == NCCL_P2P_IB) {
+  if (p2p_plugin == NCCL_P2P_IB && ncclParamMrcMultiRecvEnable()) {
     props->maxRecvs = NCCL_NET_IB_MAX_RECVS;
   } else {
     props->maxRecvs = 1;
