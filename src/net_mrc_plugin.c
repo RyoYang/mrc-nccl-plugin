@@ -48,6 +48,7 @@ NCCL_PARAM(IbRoceVersionNum, "IB_ROCE_VERSION_NUM", 2);
 NCCL_PARAM(IbIsGlobal, "IB_IS_GLOBAL", 0);
 NCCL_PARAM(IbTimeout, "IB_TIMEOUT", 20);
 NCCL_PARAM(IbRetryCnt, "IB_RETRY_CNT", 7);
+NCCL_PARAM(IbMinRnrTimer, "IB_MIN_RNR_TIMER", 12);
 NCCL_PARAM(IbUseInline, "IB_USE_INLINE", 0);
 NCCL_PARAM(IbSl, "IB_SL", -1);
 NCCL_PARAM(IbTc, "IB_TC", -1);
@@ -666,7 +667,7 @@ ncclResult_t ncclMRCRtrQp(struct mrc_qp* mrcQp, struct ncclIbGidInfo* sGidInfo, 
   qpAttr.dest_qp_num = dest_qp_num;
   qpAttr.rq_psn = 0;
   qpAttr.max_dest_rd_atomic = 1;
-  qpAttr.min_rnr_timer = 12;
+  qpAttr.min_rnr_timer = ncclParamIbMinRnrTimer();
   if (info->link_layer == IBV_LINK_LAYER_ETHERNET) {
     qpAttr.ah_attr.is_global = 1;
     qpAttr.ah_attr.grh.dgid.global.subnet_prefix = info->gid.global.subnet_prefix;
@@ -701,7 +702,7 @@ ncclResult_t ncclMRCRtrQp(struct mrc_qp* mrcQp, struct ncclIbGidInfo* sGidInfo, 
   qpAttr.ah_attr.src_path_bits = 0;
   qpAttr.ah_attr.port_num = info->ib_port;
   int qpAttrMask = 0;
-  qpAttrMask = IBV_QP_STATE | IBV_QP_AV | IBV_QP_DEST_QPN | IBV_QP_RQ_PSN | IBV_QP_PATH_MTU;
+  qpAttrMask = IBV_QP_STATE | IBV_QP_AV | IBV_QP_DEST_QPN | IBV_QP_RQ_PSN | IBV_QP_PATH_MTU | IBV_QP_MIN_RNR_TIMER;
   TRACE(NCCL_NET, "NET/IB : ncclMRCRtrQp mtu=%d dst=%u ll=%u port=%u sl: %d tc: %d", info->mtu, dest_qp_num, info->link_layer, info->ib_port, qpAttr.ah_attr.sl, qpAttr.ah_attr.grh.traffic_class);
   struct mrc_qp_attr mrcAttr;
   memset(&mrcAttr, 0, sizeof(struct mrc_qp_attr));
@@ -766,7 +767,7 @@ ncclResult_t ncclIbRtrFlushQp(struct ibv_qp* qp, struct ncclIbGidInfo* sGidInfo,
   qpAttr.dest_qp_num = dest_qp_num;
   qpAttr.rq_psn = 0;
   qpAttr.max_dest_rd_atomic = 1;
-  qpAttr.min_rnr_timer = 12;
+  qpAttr.min_rnr_timer = ncclParamIbMinRnrTimer();
   if (info->link_layer == IBV_LINK_LAYER_ETHERNET) {
     qpAttr.ah_attr.is_global = 1;
     qpAttr.ah_attr.grh.dgid.global.subnet_prefix = info->gid.global.subnet_prefix;
