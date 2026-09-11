@@ -38,7 +38,7 @@ const char* ibProviderName[] = {
 };
 
 NCCL_PARAM(IbDataDirect,"IB_DATA_DIRECT", 1);
-NCCL_PARAM(MrcMultiRecvEnable, "MRC_MULTI_RECV_ENABLE", 0);
+NCCL_PARAM(MrcMultiRecvEnable, "MRC_MULTI_RECV_ENABLE", 1);
 
 ncclResult_t pluginInit_v11(void** ctx, uint64_t commId, ncclNetCommConfig_v11_t* config, ncclDebugLogger_t logFunction, ncclProfilerCallback_t profFunction);
 ncclResult_t pluginInit_v10(ncclDebugLogger_t logFunction, ncclProfilerCallback_t profFunction);
