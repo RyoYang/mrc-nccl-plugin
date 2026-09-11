@@ -10,7 +10,7 @@ These environment variables control MRC (Multi-Path Reliable Connection) behavio
 | `NCCL_MRC_RETRY_CNT_LINEAR` | 7 | 0–7 | Linear (fixed-interval) retry limit for lost packets. Currently unsupported by vendor specific mrc.h |
 | `NCCL_MRC_RETRY_CNT_EXP` | 25 | 0–25 | Exponential-backoff retry limit. A value of 25 means infinite retries. Currently unsupported by vendor specific mrc.h |
 | `NCCL_MRC_QP_HINT_ENABLE` | 1 | 0–1 | Enables creation and attachment of MRC QP hints. Set to 0 to create QPs without hints. |
-| `NCCL_MRC_MULTI_RECV_ENABLE` | 0 | 0–1 | Enables grouped receives of up to eight tags. Disabled by default because grouped receives can cause severe head-of-line serialization for concurrent collectives. |
+| `NCCL_MRC_MULTI_RECV_ENABLE` | 1 | 0–1 | Enables grouped receives of up to eight tags. Disabled by default because grouped receives can cause severe head-of-line serialization for concurrent collectives. |
 
 ## Memory Registration Parameters
 
